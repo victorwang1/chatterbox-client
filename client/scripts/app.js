@@ -1,6 +1,9 @@
 const url = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages';
 
 var app = {
+ 
+  lastUpdate: undefined,
+ 
   init() {
 
   },
@@ -17,11 +20,11 @@ var app = {
       }
     });
   },
-  fetch(url) {
+  fetch(url, data) {
     return $.ajax({
       url: url,
       type: 'GET',
-      data: 'order=-createdAt&limit=10',
+      data: data,
       contentType: 'application/json',
       success: function (data) {
         //console.log('chatterbox: message received' + JSON.stringify(data));
@@ -36,10 +39,20 @@ var app = {
   },
   renderMessage(message) {
     var {username, text, roomname, createdAt} = message;
-    console.log(username, text, roomname, createdAt);
-    var $message = $(`<div class='messageContent'><span class='username'>${username}</span>
-                      <div class='messageText'>${text}</div>
-                      <span>${roomname}</span>
+    //console.log(username, text, roomname, createdAt);
+    if (!(username || text)) return;
+    username = app.checkForSciprt(username);
+    if (username.length > 15) username = username.slice(0, 15);
+    text = app.checkForSciprt(text);
+    roomname = roomname || '';  
+    roomname = app.checkForSciprt(roomname);
+    
+    
+    var $message = $(`<div class='messageContent'>
+                        <span class='username'>@${username}</span>
+                        <span class='roomName'>${roomname}</span>
+                        <div class='messageText'>${text}</div>
+                        <span class='createdAt' data-time='${createdAt}'>${createdAt}</span>
                       </div>`);
     $('#chats').append($message);
   },
@@ -51,11 +64,20 @@ var app = {
   handleUsernameClick() {
     
   }, 
-  handleSubmit() {
-    
-  }
-  
+  handleSubmit(username, text) {
+    var message = {
+      username: username,
+      text: text,
+      roomname: '4chan'
+    }; 
+    console.log(message);
+    this.send(message);
+  },
 
+  checkForSciprt(text) {
+    if (text.includes('<script>')) return 'script blocked';
+    else return text;
+  }
 };
 
 // update message stream

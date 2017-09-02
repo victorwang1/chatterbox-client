@@ -78,6 +78,18 @@ form input[type=text] {
     margin: auto;
 }
 
+/*Messages*/
+
+.messageContent {
+    margin-bottom: 15px;
+    border-bottom-style: solid;
+    border-width: 1px;
+}
+
+.roomName {
+    float: right;
+}
+
 .spinner {
     float: right;
     height: 46px;
