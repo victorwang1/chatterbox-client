@@ -73,6 +73,11 @@ form input[type=text] {
     background-color: #ddd;
 }
 
+#chats {
+    width: 80%;
+    margin: auto;
+}
+
 .spinner {
     float: right;
     height: 46px;

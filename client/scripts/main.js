@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  
+  
   $('body').on('click', '.username', function() {
     app.handleUsernameClick();
   });
@@ -10,4 +12,18 @@ $(document).ready(function() {
   $('#send').submit(function(e) {
     e.preventDefault();
   });
+  
+  var updateMessages = function() {
+    var newData = app.fetch(url);
+    var newMessages;
+    newData.always(function(data) {
+      newMessages = newData.responseJSON.results;
+      for (var message of newMessages) {
+        app.renderMessage(message);
+      }
+    });    
+    
+
+  };
+  updateMessages();
 });
