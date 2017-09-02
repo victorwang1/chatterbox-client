@@ -8,7 +8,7 @@ $(document).ready(function() {
     app.newRooms = {};
   };
 
-  var updateMessages = function() {    
+  var updateMessages = function() {
     var newData = app.fetch(url, app.data);
     newData.always(function(data) {
       var newMessages = newData.responseJSON.results;
@@ -26,11 +26,10 @@ $(document).ready(function() {
   setInterval(updateMessages, 5000);
   
 
-
   // Event Handlers
   $('body').on('click', '.username', function() {
     app.handleUsernameClick(this.innerHTML.slice(1));
-    updateMessages();
+    //updateRooms();
   });
 
   $('#send .submit').on('click submit', function() {
@@ -51,7 +50,6 @@ $(document).ready(function() {
   
   $('#roomSelect').on('change', function() {
     var roomname = $('#roomSelect').val();
-    console.log(roomname);
     if (roomname === 'All Rooms') {
       delete app.data['where'];
     } if (roomname === 'Create new room...') {

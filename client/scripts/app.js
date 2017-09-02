@@ -48,7 +48,7 @@ var app = {
   },
   renderMessage(message) {
     var {username, text, roomname, createdAt} = message;
-    if (!(username || text || roomname)) return;
+    if (!username || !text || !roomname) return;
     username = app.checkForSciprt(username);
     if (username.length > 15) username = username.slice(0, 15);
     text = app.checkForSciprt(text);
@@ -86,7 +86,6 @@ var app = {
     }; 
     this.send(message);
   },
-
   checkForSciprt(text) {
     if (text.includes('<script>')) return 'script blocked';
     else return text;
