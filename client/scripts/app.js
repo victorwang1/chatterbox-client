@@ -3,7 +3,13 @@ const url = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages';
 var app = {
  
   lastUpdate: undefined,
- 
+  rooms: {},
+  newRooms: {},
+  friends: {},
+  data: {
+    'order': '-createdAt',
+    'limit': '50'
+  },
   init() {
 
   },
@@ -13,7 +19,7 @@ var app = {
       type: 'POST',
       data: input,
       success: function (data) {
-        console.log('chatterbox: Message sent:', data);
+        console.log('chatterbox: Message sent:');
       },
       error: function (data) {
         console.error('chatterbox: Failed to send message', data);
@@ -37,23 +43,30 @@ var app = {
   clearMessages() {
     $('#chats').empty();
   },
+  clearRooms() {
+    $('#roomSelect').empty();
+  },
   renderMessage(message) {
     var {username, text, roomname, createdAt} = message;
-    //console.log(username, text, roomname, createdAt);
-    if (!(username || text)) return;
+    if (!(username || text || roomname)) return;
     username = app.checkForSciprt(username);
     if (username.length > 15) username = username.slice(0, 15);
     text = app.checkForSciprt(text);
-    roomname = roomname || '';  
+    roomname = roomname || 'undefined';  
     roomname = app.checkForSciprt(roomname);
-    
+    if (!app.rooms[roomname]) {
+      app.newRooms[roomname] = roomname;
+    }
     
     var $message = $(`<div class='messageContent'>
                         <span class='username'>@${username}</span>
                         <span class='roomName'>${roomname}</span>
                         <div class='messageText'>${text}</div>
-                        <span class='createdAt' data-time='${createdAt}'>${createdAt}</span>
+                        <span class='createdAt'>${createdAt}</span>
                       </div>`);
+    if (app.friends[username]) {
+      $message.find('.username').addClass('friend');
+    }
     $('#chats').append($message);
   },
   renderRoom(roomName) {
@@ -61,16 +74,16 @@ var app = {
     $newRoom.text(roomName);
     $('#roomSelect').append($newRoom);
   },
-  handleUsernameClick() {
-    
+  handleUsernameClick(username) {
+    app.friends[username] = username;
   }, 
-  handleSubmit(username, text) {
+
+  handleSubmit(username, text, roomname) {
     var message = {
       username: username,
       text: text,
-      roomname: '4chan'
+      roomname: roomname
     }; 
-    console.log(message);
     this.send(message);
   },
 
@@ -79,14 +92,5 @@ var app = {
     else return text;
   }
 };
-
-// update message stream
-var _updateStream = function() {};
-
-// count JSON file length
-var _JSONLength = function() {};
-
-// length from last fetch
-
 
 
