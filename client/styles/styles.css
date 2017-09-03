@@ -12,7 +12,7 @@ body {
     background: white;
     padding: 50px 60px;
     border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+    border-width: 1px 1px 1px 1px;
 }
 
 #main h1 {
@@ -46,6 +46,7 @@ body {
     line-height: 13px;
 }
 
+/*Message Input*/
 form {
     padding: 20px;
     padding-left: 0;
@@ -67,6 +68,7 @@ form input[type=text] {
 
 .chat .username {
     font-weight: 800;
+    color: red;
 }
 
 .chat:hover {
@@ -78,7 +80,21 @@ form input[type=text] {
     margin: auto;
 }
 
+/*Room Dropdown*/
+#roomSelect {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#newroomname {
+  margin-left: 10px;
+}
+
 /*Messages*/
+
+#message {
+  width: 80%;
+}
 
 .messageContent {
     margin-bottom: 15px;
@@ -101,7 +117,5 @@ form input[type=text] {
 }
 
 .friend {
-    color: #fff;
-    background-color: #0090da;
+    color: #0090da;
 }
-

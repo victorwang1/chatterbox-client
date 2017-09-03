@@ -49,19 +49,21 @@ $(document).ready(function() {
     $('#message').val('');
   });
 
+  // prevent send page refresh
   $('#send').submit(function(e) {
     e.preventDefault();
   });
 
   $('#roomSelect').on('change', function() {
     var roomname = $('#roomSelect').val();
-    if (roomname === 'All Rooms') {
+    
+    if (roomname === 'All Rooms')
       delete app.data['where'];
-    } else if (roomname === 'Create new room...') {
+    else if (roomname === 'Create new room...')
       $('#roomSelect').after($('<input id="newroomname" type="text">'));
-    } else {
+    else
       app.data['where'] = {'roomname': roomname};
-    }
+
     updateMessages();
   });
 });
