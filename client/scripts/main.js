@@ -9,7 +9,9 @@ $(document).ready(function() {
   };
 
   var updateMessages = function() {
+
     var newData = app.fetch(url, app.data);
+    if (!newData) return;
     newData.always(function(data) {
       var newMessages = newData.responseJSON.results;
       app.lastUpdate = newMessages[0].createdAt;
@@ -29,7 +31,7 @@ $(document).ready(function() {
   // Event Handlers
   $('body').on('click', '.username', function() {
     app.handleUsernameClick(this.innerHTML.slice(1));
-    //updateRooms();
+    updateMessages();
   });
 
   $('#send .submit').on('click submit', function() {
@@ -52,7 +54,7 @@ $(document).ready(function() {
     var roomname = $('#roomSelect').val();
     if (roomname === 'All Rooms') {
       delete app.data['where'];
-    } if (roomname === 'Create new room...') {
+    } else if (roomname === 'Create new room...') {
       $('#roomSelect').after($('<input id="newroomname" type="text">'));
     } else {
       app.data['where'] = {'roomname': roomname};
