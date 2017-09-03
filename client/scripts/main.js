@@ -15,7 +15,7 @@ $(document).ready(function() {
     newData.always(function(data) {
       var newMessages = newData.responseJSON.results;
       app.lastUpdate = newMessages[0].createdAt;
-      
+
       app.clearMessages();
       for (var message of newMessages) {
         app.renderMessage(message);
@@ -26,9 +26,9 @@ $(document).ready(function() {
 
   updateMessages();
   setInterval(updateMessages, 5000);
-  
 
-  // Event Handlers
+
+  // -----Event Handlers-----
   $('body').on('click', '.username', function() {
     app.handleUsernameClick(this.innerHTML.slice(1));
     updateMessages();
@@ -36,20 +36,23 @@ $(document).ready(function() {
 
   $('#send .submit').on('click submit', function() {
     var username = window.location.search.split('=')[1];
-    var roomname = $('#roomSelect').val();
     var text = $('#message').val();
-    if (roomname === 'Create new room...') {
+    var roomname = $('#roomSelect').val();
+
+    if (roomname === 'Create new room...')
       roomname = $('#newroomname').val();
-    }
+    else if (roomname === 'All Rooms')
+      roomname = 'lobby';
+
     app.handleSubmit(username, text, roomname);
     $('#newroomname').remove();
     $('#message').val('');
   });
-  
+
   $('#send').submit(function(e) {
     e.preventDefault();
   });
-  
+
   $('#roomSelect').on('change', function() {
     var roomname = $('#roomSelect').val();
     if (roomname === 'All Rooms') {
@@ -62,4 +65,3 @@ $(document).ready(function() {
     updateMessages();
   });
 });
-

@@ -1,7 +1,6 @@
 const url = 'http://parse.sfm6.hackreactor.com/chatterbox/classes/messages';
 
 var app = {
- 
   lastUpdate: undefined,
   rooms: {},
   newRooms: {},
@@ -11,7 +10,7 @@ var app = {
     'limit': '50'
   },
   init() {
-
+    
   },
   send(input) {
     $.ajax({
@@ -52,12 +51,12 @@ var app = {
     username = app.checkForSciprt(username);
     if (username.length > 15) username = username.slice(0, 15);
     text = app.checkForSciprt(text);
-    roomname = roomname || 'undefined';  
+    roomname = roomname || 'undefined';
     roomname = app.checkForSciprt(roomname);
     if (!app.rooms[roomname]) {
       app.newRooms[roomname] = roomname;
     }
-    
+
     var $message = $(`<div class='messageContent'>
                         <span class='username'>@${username}</span>
                         <span class='roomName'>${roomname}</span>
@@ -76,14 +75,14 @@ var app = {
   },
   handleUsernameClick(username) {
     app.friends[username] = username;
-  }, 
+  },
 
   handleSubmit(username, text, roomname) {
     var message = {
       username: username,
       text: text,
       roomname: roomname
-    }; 
+    };
     this.send(message);
   },
   checkForSciprt(text) {
@@ -91,5 +90,3 @@ var app = {
     else return text;
   }
 };
-
-
